@@ -1,15 +1,17 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
-int main() {
-std::cout << __FILE__ << " " << __LINE__ << std::endl;
-    cv::Mat img = cv::imread("figure.jpg");
-std::cout << __FILE__ << " " << __LINE__ << std::endl;
+#include "src/hist.h"
 
-    cv::imshow("test", img);
-std::cout << __FILE__ << " " << __LINE__ << std::endl;
-    cv::waitKey(0);
-std::cout << __FILE__ << " " << __LINE__ << std::endl;
+int main() {
+    
+    cv::Mat img = cv::imread("figure.jpg", cv::IMREAD_GRAYSCALE);
+//    cv::imshow("test", img);
+//    cv::waitKey(0);
+
+    cv::Mat hist = mycv::Hist(img);
+
+    mycv::Print(hist);
+    
     return 0;
-std::cout << __FILE__ << " " << __LINE__ << std::endl;
 }
