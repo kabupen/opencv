@@ -151,7 +151,7 @@ int main() {
     {
         std::cout << "\n---- Point2f から初期化 " << std::endl;
 
-        std::vector<cv::Point2f> points = {cv::Point2f(1,2), cv::Point2f(3,4)};
+        std::vector<cv::Point2f> points = {cv::Point2f(1,2), cv::Point2f(3,4), cv::Point2f(5,6)};
 
         /* 
             std::vector の size() --> 要素数
@@ -208,6 +208,30 @@ int main() {
     std::cout << mat9 << std::endl;
 
 
+    
+    {
+        std::cout << "\n---- Mat から Point2f " << std::endl;
+
+        std::vector<cv::Point2f> points = {cv::Point2f(1,2), cv::Point2f(3,4), cv::Point2f(5,6)};
+
+        /* 
+            std::vector の size() --> 要素数
+                           data() --> 配列への先頭ポインタ
+        */
+        std::cout << points.size() << " "  << points.data() << std::endl;
+
+        // 型と既存データを指定した場合のコンストラクタが呼ばれる
+        cv::Mat mat(points.size(), 2, CV_32F, points.data());
+
+        /* 
+           [1 2;
+           3 4] 
+
+           dims = 2
+           size() : [2 x 2]
+         */
+         check_size(mat);
+    }
 
 
 
@@ -255,6 +279,32 @@ int main() {
                 << mat10.at<float>( mat10.channels() * mat10.cols * idx + 2 + 3*jdx) << " ";
            }
             std::cout << std::endl; /* Bad : コンパイルエラー */
+    }
+    
+
+    {
+        print_title("Mat 各要素の計算");
+
+        float data[] = {1,2,3,4,5,6};
+        cv::Mat mat(3,2,CV_32F,data); // CV_32F はデフォルトで CV_32FC1 と同じ
+        check_size(mat);
+
+        
+        cv::Mat row_sum, col_sum;
+        cv::reduce(mat, col_sum, 0, cv::REDUCE_SUM, CV_32F);
+        cv::reduce(mat, row_sum, 1, cv::REDUCE_SUM, CV_32F);
+
+        std::cout << "総和：" << cv::sum(mat) << std::endl;
+        std::cout << "総和（列）：" << col_sum << std::endl;
+        std::cout << "総和（行）：" << row_sum << std::endl;
+        
+        cv::Mat row_mean, col_mean;
+        cv::reduce(mat, col_mean, 0, cv::REDUCE_AVG, CV_32F);
+        cv::reduce(mat, row_mean, 1, cv::REDUCE_AVG, CV_32F);
+
+        std::cout << "平均：" << cv::mean(mat) << std::endl;
+        std::cout << "平均（列）：" << col_mean << std::endl;
+        std::cout << "平均（行）：" << row_mean << std::endl;
     }
 
 

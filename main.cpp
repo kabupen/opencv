@@ -1,7 +1,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
-#include "src/hist.h"
+#include "hist.h"
 
 int main() {
     
